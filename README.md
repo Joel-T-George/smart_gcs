@@ -1,10 +1,10 @@
 ### Smart GCS
 
 run application by 
-``bash
+```bash
 
   npm install
   npm run dev
 
 
-``
+```
