@@ -1,6 +1,6 @@
 import React from "react";
-import { AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+// import MenuIcon from "@mui/icons-material/Menu";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -10,30 +10,36 @@ interface HeaderProps {
 const HEADER_HEIGHT = 48;
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick, buttons = [] }) => {
+  
   return (
     <AppBar
-      // position="fixed"
-      color="primary"
+      position="fixed"
+    
+      color="inherit"
+      
       sx={{
+        
+        // backgroundColor:theme.palette.primary,
+        // backgroundColor:theme.palette.primary,
         height: HEADER_HEIGHT,
         minHeight: HEADER_HEIGHT,
         display: "flex",
         justifyContent: "center",
-        padding: "0 5px",
+        padding: "0 2px",
         zIndex: 1300, // Ensures it's above other elements
       }}
     >
-      <Toolbar sx={{ minHeight: HEADER_HEIGHT, padding: "0 8px" }}>
+      <Toolbar sx={{ minHeight: HEADER_HEIGHT, padding: "0 5px" }}>
         {/* Left Menu Icon */}
-        {onMenuClick && (
+        {/* {onMenuClick && (
           <IconButton edge="start" color="inherit" onClick={onMenuClick} sx={{ padding: "4px" }}>
             <MenuIcon fontSize="small" />
           </IconButton>
-        )}
+        )} */}
 
         {/* App Title */}
         <Typography variant="h6" sx={{ flexGrow: 1, fontSize: "1rem" }}>
-          My Application
+          Smart GCS
         </Typography>
 
         {/* Dynamic Buttons */}
