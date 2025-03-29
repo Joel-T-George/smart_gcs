@@ -6,7 +6,7 @@ interface SidebarState {
 }
 
 const initialState: SidebarState = {
-    width: 64, // Default collapsed
+    width: 3.2, // Default collapsed
     expanded: false,
 };
 
@@ -16,10 +16,10 @@ const sidebarSlice = createSlice({
     reducers: {
         toggleSidebar: (state) => {
             state.expanded = !state.expanded;
-            state.width = state.expanded ? 256 : 64; // Adjust width dynamically
+            state.width = state.expanded ? 15 : 3.2; // Adjust width dynamically
         },
         setSidebarWidth: (state, action: PayloadAction<number>) => {
-            state.width = action.payload;
+            state.width = action.payload??state.width;
         },
     },
 });

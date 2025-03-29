@@ -19,7 +19,7 @@
   opacity: 0.2;
 }
 .lm_splitter {
-  background: #000000;
+  background: var(--paper-color);
   opacity: 0.001;
   transition: opacity 200ms ease;
 }

@@ -11,12 +11,14 @@ app.whenReady().then(() => {
         // frame: false,
         webPreferences: {
             preload: getPreLoadPath(),
-            nodeIntegration: false,
+            nodeIntegration: true,
             contextIsolation: true,
+            nodeIntegrationInWorker: true
         }
     });
     mainWindow.setMenu(null);
     // mainWindow.setMenu(null)
+    console.log(getPreLoadPath());
     if (isDev()) {
         mainWindow.loadURL("http://localhost:5123");
     }

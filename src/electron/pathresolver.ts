@@ -5,7 +5,7 @@ import path from "path"
 const gobalAppPath = app.getAppPath()
 
 export function getPreLoadPath(){
-    return path.join(gobalAppPath, '/dist-electron/preload.js')
+    return path.join(gobalAppPath, '/dist-electron/preload.mjs')
 }
 
 export function getUserInterfacePath(){

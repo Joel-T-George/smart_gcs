@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Drawer,
   List,
@@ -9,36 +9,56 @@ import {
   Box,
   useTheme
 } from "@mui/material";
-import { Menu, Home, Settings, People } from "@mui/icons-material";
-interface SidebarProps{
-  currentSide:number,
-  onclickToggleFunction:(width:number)=>void;
+import MonitorSharpIcon from '@mui/icons-material/MonitorSharp';
+import MapIcon from '@mui/icons-material/Map';
+import { Menu, Settings } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { toggleSidebar } from "./slice";
+import OpenPanel from "./selector";
+import { GoldenLayout } from "golden-layout";
 
-}
+
+
 const menuItems = [
   { 
-    name: "Dashboard", 
-    icon: <Home /> 
+    name: "Map", 
+    icon: <MapIcon />,
+    componenet:"Map"
   },
-  { name: "Users", 
-    icon: <People /> 
+  { name: "Dashboard", 
+    icon: <MonitorSharpIcon /> ,
+    componenet:"Dashboard"
   },
   { name: "Settings",
-    icon: <Settings /> 
+    icon: <Settings /> ,
+    componenet:"Map"
   },
 ];
 
-const Sidebar: React.FC<SidebarProps>= ({currentSide,onclickToggleFunction}) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+
+interface sideBarProps {
+  layout:GoldenLayout | null,
+
+
+}
+
+const Sidebar: React.FC<sideBarProps>= ({layout}) => {
+ 
+  const dispatch = useDispatch()
   const theme = useTheme();
-  const drawerWidth = isExpanded ? 15 : 3.2;
+  const isExpanded = useSelector((state:RootState)=>state.sidebar.expanded)
+  const sideBar = useSelector((state:RootState)=>state.sidebar.width)
+  
+  
+
+
   const onClickHandler =()=>{
-   
-    setIsExpanded(!isExpanded);
-    const Width = isExpanded ? 3.2 : 15;
-    onclickToggleFunction( Width);
+
+   dispatch(toggleSidebar())
     
-    console.log(currentSide)
+    
+
   }
   return (
     <Box sx={{ display:"flex",  backgroundColor:theme.palette.background.paper}}>
@@ -48,14 +68,14 @@ const Sidebar: React.FC<SidebarProps>= ({currentSide,onclickToggleFunction}) => 
       
         sx={{
           height:"100%",
-          width: `${drawerWidth}rem`,
+          width: `${sideBar}rem`,
 
           // backgroundColor:theme.palette.primary,
           
           transition: "width 0.1s ease-in-out",
           "& .MuiDrawer-paper": {
-            width: `${drawerWidth}rem`,
-            transition: "width 0.1s ease-in-out",
+            width: `${sideBar}rem`,
+          
             overflowX: "hidden",
             boxSizing: "border-box",
             // color:theme.palette.text.primary,
@@ -76,8 +96,9 @@ const Sidebar: React.FC<SidebarProps>= ({currentSide,onclickToggleFunction}) => 
 
           {/* Sidebar Items */}
           {menuItems.map((item) => (
-            <ListItem key={item.name} disablePadding>
-              <ListItemButton>
+            
+            <ListItem key={item.name} disablePadding sx={{margin:"0px" , padding:"0px"}}>
+              <ListItemButton onClick={()=>OpenPanel(layout,item.componenet)}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 {isExpanded && <ListItemText primary={item.name} />}
               </ListItemButton>

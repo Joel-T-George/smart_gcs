@@ -6,16 +6,23 @@ export const getTheme = (mode:"light"|"dark") =>
         palette:{
             mode,
             primary: { main: mode === "dark" ? "#90caf9" : "#1565c0" },
-            secondary: { main: mode === "dark" ? "#f48fb1" : "#d32f2f" },
+            secondary: { main: mode === "dark" ? "#299ec1" : "#075387" },
+            
+            text: {
+                primary: mode === "dark" ? "#ffffff" : "#000000",
+                secondary:mode ==="dark" ? "#299ec1" : "#075387"
+            },
+            
             background: {
                 default: mode === "dark" ? "#121212" : "#ffffff",
                 paper: mode === "dark" ? "#1e1e1e" : "#f5f5f5",
             },
-            text: {
-                primary: mode === "dark" ? "#ffffff" : "#000000",
-            },
+        },
+
+            
         }
-})
+    
+)
 
 
 

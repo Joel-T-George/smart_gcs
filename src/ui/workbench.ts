@@ -1,28 +1,15 @@
 
-import { GoldenLayout, ComponentContainer , LayoutConfig} from "golden-layout";
-// import { Component } from "react";
-// import TestComponent from "./TestCompoent";
-// import { useTheme } from "@mui/material";
-
-// all the featured components 
+import { GoldenLayout, LayoutConfig} from "golden-layout";
+import { registerGoldenLayoutPanels } from "./layout/goldenLayoutConfig";
+import { Dispatch } from "@reduxjs/toolkit";
+import { defaultLayout, updateLayout } from "./layout/slice";
 
 
 
-const components: Record<string, (container: ComponentContainer) => void> = {
-    windowA: (container) => {
-        container.element.innerHTML = "<h1>Window A</h1>";
-    },
-    windowB: (container) => {
-        container.element.innerHTML = "<h1>Window B</h1>";
-    },
-    windowC: (container) => {
-        container.element.innerHTML = "<h1>Window C</h1>";
-    }
-};
-// const theme = useTheme()
 
-export function constructDefaultGoldenLayout(containerElement:HTMLElement):GoldenLayout {
-    
+export function constructDefaultGoldenLayout(containerElement:HTMLElement, state:LayoutConfig, dispatch:Dispatch):GoldenLayout {
+  
+        
     const layout = new GoldenLayout(containerElement);
     // containerElement.style.setProperty("--primary-color", theme.palette.primary.main)
     // containerElement.style.setProperty("--background-color", theme.palette.background.default)
@@ -31,36 +18,72 @@ export function constructDefaultGoldenLayout(containerElement:HTMLElement):Golde
     
     
     // Register components dynamically using Object.entries()
-    Object.entries(components).forEach(([name, renderFn]) => {
-        console.log(name)
-        layout.registerComponentFactoryFunction(name, renderFn);
-    });
+    registerGoldenLayoutPanels(layout)
 
-    const config: LayoutConfig = {
-        settings: {
-            hasHeaders: true,  // Enables tab headers
-            showPopoutIcon: true,  // Enables detach window button
-            showMaximiseIcon: true, // Enables maximize button
-            showCloseIcon: true,  // Enables close button
+    
+    
+    
+    
+    // const config: LayoutConfig =    }
 
-        },
-      
-        root: {
-            type: "row",
-            content: [
-                {
-                    type: "column",
-                    content: [
-                        { type: "component", componentType: "windowA", title: "Window A" },
-                        { type: "component", componentType: "windowB", title: "Window B" }
-                    ]
-                },
-                { type: "component", componentType: "windowC", title: "Window C" }
-            ]
+    // layout.loadLayout(state)
+
+    console.log(layout.getRegisteredComponentTypeNames())
+    let isInitalised:boolean = false
+   
+    
+    if(!state.root){
+        console.log("Default Static Layout Setup")
+        
+        layout.loadLayout(defaultLayout)
+        let newConfig = layout.saveLayout()
+        dispatch(updateLayout(LayoutConfig.fromResolved(newConfig)))
+
+    
+
+    }
+    else {
+        try{
+            console.log("Restore Layout from Store")
+            layout.loadLayout(state);
+            
+           
         }
+        catch(error){
+            console.log( error,"Restore Error")
+        }
+
     }
 
-    layout.loadLayout(config)
+
+    
+
+        
+        
+        
+
+    layout.on("stateChanged",()=>{
+        
+        if(layout.isInitialised){
+            let newConfig = layout.saveLayout()
+            console.log("Change on Layout")
+            dispatch(updateLayout(LayoutConfig.fromResolved(newConfig)))
+        
+        
+
+        }
+        
+        
+    })
+
+    
+    
+    
+
+    
+    
+
+
 
     return layout;
 

@@ -15,8 +15,9 @@ app.whenReady().then(()=>{
         // frame: false,
         webPreferences:{
             preload: getPreLoadPath(),
-            nodeIntegration:false,
+            nodeIntegration:true,
             contextIsolation: true,
+            nodeIntegrationInWorker:true
             
         }
     })
@@ -24,7 +25,7 @@ app.whenReady().then(()=>{
     mainWindow.setMenu(null)
     // mainWindow.setMenu(null)
 
-
+    console.log(getPreLoadPath())
 
     if(isDev()){
         mainWindow.loadURL("http://localhost:5123")

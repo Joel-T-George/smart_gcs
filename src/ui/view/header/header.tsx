@@ -1,15 +1,23 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 // import MenuIcon from "@mui/icons-material/Menu";
 
 interface HeaderProps {
-  onMenuClick?: () => void;
-  buttons?: { label: string; onClick: () => void }[];
+  
+  buttons?: { 
+
+    label: string; 
+    onClick: () => void;  
+    isIcon: boolean;
+    icon: React.ReactNode;
+  
+  }[];
+  
 }
 
 const HEADER_HEIGHT = 48;
 
-const Header: React.FC<HeaderProps> = ({ onMenuClick, buttons = [] }) => {
+const Header: React.FC<HeaderProps> = ({  buttons = [] }) => {
   
   return (
     <AppBar
@@ -43,7 +51,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, buttons = [] }) => {
         </Typography>
 
         {/* Dynamic Buttons */}
-        {buttons.map((btn, index) => (
+        {buttons.map((btn, index) => btn.isIcon ?( 
+           <IconButton key={index} onClick={btn.onClick} color="inherit">
+           {btn.icon} {/* ✅ Use `btn.icon` for dynamic icons */}
+         </IconButton>
+        ) :(
+           
           <Button
             key={index}
             color="inherit"
@@ -52,6 +65,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, buttons = [] }) => {
           >
             {btn.label}
           </Button>
+          
         ))}
       </Toolbar>
     </AppBar>
