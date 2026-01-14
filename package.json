@@ -38,7 +38,7 @@
     "@types/redux-persist": "^4.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "cross-env": "^7.0.3",
-    "electron": "^35.0.0",
+    "electron": "^35.7.5",
     "electron-builder": "^25.1.8",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
